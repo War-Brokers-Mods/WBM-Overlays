@@ -9,6 +9,19 @@
     <meta http-equiv="Expires" content="0" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.min.js"
+      integrity="sha512-B4skI5FiLurS86aioJx9VfozI1wjqrn6aTdJH+YQUmCZum/ZibPBTX55k5d9XM6EsKePDInkLVrN7vPmJxc1qA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.8/countUp.min.js"
+      integrity="sha512-9+HQ3cPfgbSK5azaywk8Cxe8c5am8BhcNDJ9T3Ki2LyZ75PCZ6fVNrNxUVQ4HncxpUorsX2WeZOr0sVSCTuqKg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+      type="module"
+    ></script>
     <style>
       :root {
         --width: 325px;
@@ -151,8 +164,8 @@
       <div id="line"></div>
 
       <div id="delta-container">
-        <span class="positive" id="killsEloDelta">0</span>
-        <span class="positive" id="gamesEloDelta">0</span>
+        <span class="positive" id="killsEloDelta">00.0</span>
+        <span class="positive" id="gamesEloDelta">00.0</span>
       </div>
 
       <div id="elo-container">
@@ -167,10 +180,8 @@
       </div>
     </div>
 
-    <script src="lib/reconnecting-websocket.min.js"></script>
     <script type="module">
-      import { CountUp } from "./lib/countUp.min.js";
-
+      import { CountUp } from "https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.8/countUp.min.js";
       let socket = new ReconnectingWebSocket("ws://127.0.0.1:24601/json");
 
       socket.onopen = () => console.log("Socket Connected!");
@@ -195,12 +206,14 @@
         useGrouping: true,
         separator: " ",
         decimal: ".",
+        decimalPlaces: 1,
       });
       let gamesEloDeltaCountUp = new CountUp("gamesEloDelta", 0, 0, 0, 0.5, {
         useEasing: true,
         useGrouping: true,
         separator: " ",
         decimal: ".",
+        decimalPlaces: 1,
       });
 
       socket.onmessage = (event) => {
@@ -223,7 +236,7 @@
         );
 
         killsEloDeltaCountUp.update(
-          data.playerStatsArray[data.localPlayerIndex].killsEloDelta
+          data.playerStatsArray[data.localPlayerIndex].killsEloDelta / 10
         );
 
         gamesEloCountUp.update(
@@ -231,7 +244,7 @@
         );
 
         gamesEloDeltaCountUp.update(
-          data.playerStatsArray[data.localPlayerIndex].gamesEloDelta
+          data.playerStatsArray[data.localPlayerIndex].gamesEloDelta / 10
         );
       };
     </script>
