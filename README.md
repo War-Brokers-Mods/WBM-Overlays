@@ -13,4 +13,4 @@
 
 ## License
 
-This project is licensed under the MIT License.
+The source code of this project is available under the MIT License.
