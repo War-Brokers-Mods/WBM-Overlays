@@ -22,6 +22,7 @@
       referrerpolicy="no-referrer"
       type="module"
     ></script>
+
     <style>
       :root {
         --width: 325px;
@@ -218,34 +219,25 @@
 
       socket.onmessage = (event) => {
         let data = JSON.parse(event.data);
+        let playerStat = data.playerStatsArray[data.localPlayerIndex];
 
-        if (data.playerStatsArray[data.localPlayerIndex].killsEloDelta < 0) {
-          killsEloDelta.classList.remove("positive");
-        } else {
+        killsEloCountUp.update(playerStat.killsElo);
+        killsEloDeltaCountUp.update(playerStat.killsEloDelta / 10);
+
+        gamesEloCountUp.update(playerStat.gamesElo);
+        gamesEloDeltaCountUp.update(playerStat.gamesEloDelta / 10);
+
+        if (playerStat.killsEloDelta >= 0) {
           killsEloDelta.classList.add("positive");
-        }
-
-        if (data.playerStatsArray[data.localPlayerIndex].gamesEloDelta < 0) {
-          gamesEloDelta.classList.remove("positive");
         } else {
-          gamesEloDelta.classList.add("positive");
+          killsEloDelta.classList.remove("positive");
         }
 
-        killsEloCountUp.update(
-          data.playerStatsArray[data.localPlayerIndex].killsElo
-        );
-
-        killsEloDeltaCountUp.update(
-          data.playerStatsArray[data.localPlayerIndex].killsEloDelta / 10
-        );
-
-        gamesEloCountUp.update(
-          data.playerStatsArray[data.localPlayerIndex].gamesElo
-        );
-
-        gamesEloDeltaCountUp.update(
-          data.playerStatsArray[data.localPlayerIndex].gamesEloDelta / 10
-        );
+        if (playerStat.gamesEloDelta >= 0) {
+          gamesEloDelta.classList.add("positive");
+        } else {
+          gamesEloDelta.classList.remove("positive");
+        }
       };
     </script>
   </body>
