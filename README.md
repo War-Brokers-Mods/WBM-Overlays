@@ -1,5 +1,10 @@
 # WBM-Overlays
 
+WBM has been officially included into the game
+
+<details>
+<summary>Potentially outdated information (click to unfold)</summary>
+
 ## Usage
 
 1. [Download](https://github.com/War-Brokers-Mods/WBM-Overlays/archive/refs/heads/master.zip) and unzip the overlays.
@@ -25,3 +30,5 @@
 ## License
 
 The source code of this project is available under the MIT License.
+
+</details>
